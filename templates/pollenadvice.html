@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% include 'advice template.html' %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Policies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0
+}
+
+body {
+  font-family: "lato", sans-serif;
+  color: black;
+}
+
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+p {
+  font-size: 30px;
+}
+
+
+
+
+
+
+
+
+p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+
+.grid {
+  overflow: visible;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  padding: 10px 30px 10px 30px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+
+footer {
+  background-color: #405BC9;
+  padding: 20px 10px;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+footer a {
+  color: white;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  color: #FFF;
+  border-bottom: 2px solid #FFF;
+}
+
+@media(max-width: 768px) {
+  .grid,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+
+@media(max-width: 500px) {
+
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+h1.ex1 {
+  margin-top: 70px;
+}
+
+.container a {
+  color: white;
+  margin: 0 10px;
+}
+
+</style>
+</head>
+<body>
+<main>
+<br>
+<br>
+<br>
+<div class="container">
+<h1 class="ex1">Pollen allergies and their causes</h1>
+<p>
+    Pollen is made up of tiny particles which are released by plants and trees as part of their reproductive cycle. It is an extremely fine powder and is spread by insects and the wind.
+    Pollen can cause significant irritation and inflammation in people who are allergic to it. Pollen can be inhaled by humans and animals. For those with an allergy, pollen triggers the antibody immunoglobulin E, which creates mucus and leads to symptoms such as congestion and sneezing.
+</p>
+<h1>Hay fever and its Causes</h1>
+<p>
+    Hay fever is the most common name for pollen allergy and is most commonly caused by grass pollens, although other pollens can also trigger the symptoms. The symptoms are caused when immune system reacts to pollen in the body to produce histamine and other chemicals.
+
+    Around two in every ten people have this allergy and it is thought that more than 10 million people in Britain suffer with hay fever. You are more likely to suffer from hay fever if you have a family history of allergies, or if you suffer from asthma or eczema. Most people develop hay fever in childhood or when they are a teenager, although it can be triggered at any age. Many people find, however, that they grow out of the condition and suffer less from the symptoms of hay fever as an adult.
+
+    Hay fever symptoms can include frequent sneezing, a runny or blocked nose, itchy eyes and an itchy throat, mouth, nose and ears. As a sufferer, you may also experience the loss of your sense of smell, facial pain, sweating and headaches - although these symptoms are less common. Asthma sufferers may find that their symptoms get worse when suffering from hay fever and may experience a tight chest, shortness of breath, coughing and wheezing.
+</p>
+<h1>Pollen Types and Levels to be aware of</h1>
+<p>
+    Depending on the time of year, the type of pollen in the air will be different. There are around 30 different types of pollen that cause hay fever and it is possible to be allergic to more than one type. Most people are allergic to grass pollen, which is common in late spring and early summer. Tree pollen tends to be released during spring and affects around 25% of people. Weed pollen can be released at any time from the early spring to the late autumn.
+
+    Hay fever symptoms usually appear when the pollen count, which is a measure of the number of grains of pollen in one cubic metre of air, exceeds 50. The weather conditions affect how much pollen is released and spread around. On humid and windy days, pollen spreads easily but on rainy days, pollen can be cleared from the air. On sunny days, the pollen count is highest in the early evening and that's when you are most likely to suffer from hay fever symptoms.
+</p>
+<h1>Advice and Treatments for hay fever</h1>
+<p>
+    Although there is currently no cure for hay fever, most people are able to relieve their symptoms with treatment. The most effective way to prevent hay fever is to avoid exposure to pollen but this is almost impossible, particularly during the summer months. Instead, many people rely on antihistamines, which can prevent the allergic reaction from happening, and corticosteroids, which reduce any inflammation and swelling caused by the pollen allergy. Eye drops can also help. Over-the-counter treatments should be sufficient to ease your hay fever symptoms, but if you are experiencing more severe symptoms, you should speak to your GP.
+</p>
+<div>
+<h1>Advice from the NHS</h1>
+<div>
+  <ul>
+    <li>put Vaseline around your nostrils to trap pollen</li>
+    <li>wear wraparound sunglasses to stop pollen getting into your eyes</li>
+    <li>shower and change your clothes after you have been outside to wash pollen off</li>
+    <li>stay indoors whenever possible</li>
+    <li>keep windows and doors shut as much as possible</li>
+    <li>vacuum regularly and dust with a damp cloth</li>
+    <li>buy a pollen filter for the air vents in your car and a vacuum cleaner with a HEPA filter</li>
+    <li>try to stay at home and avoid contact with other people if you have a high temperature, or you do not feel well enough to do your normal activities</li>
+  </ul>
+</div>
+<div>
+    <ul>
+        <li>do not cut grass or walk on grass</li>
+        <li>do not spend too much time outside</li>
+        <li>do not keep fresh flowers in the house</li>
+        <li>do not smoke or be around smoke – it makes your symptoms worse</li>
+        <li>do not dry clothes outside – they can catch pollen</li>
+        <li>do not let pets into the house if possible – they can carry pollen indoors</li>
+    </ul>
+</div>
+    <p>Advice was sourced from the NHS. Reference can be found <a href="https://www.nhs.uk/conditions/hay-fever/" class="offsitelink">here</a></p>
+</div>
+</div>
+</main>
+<footer>
+   <div class="container grid-3">
+     <div class="copyright">
+       <h1>Health Advice Group</h1>
+       <p>Copyright &copy; 2023</p>
+     </div>
+     <nav class="links">
+       <ul>
+         <li><a href="{{ url_for('base') }}" class="outline">Home</a></li>
+         <li><a href="{{ url_for('login') }}" class="outline">Log In</a></li>
+         <li><a href="{{ url_for('policies') }}" class="outline">Our Policies</a></li>
+       </ul>
+     </nav>
+     <div class="profiles">
+       <a href=""><em class="fab fa-twitter fa-2x"></em></a>
+       <a href=""><em class="fab fa-instagram fa-2x"></em></a>
+       <a href=""><em class="fab fa-facebook fa-2x"></em></a>
+       <a href=""><em class="fab fa-whatsapp fa-2x"></em></a>
+     </div>
+   </div>
+ </footer>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% include 'advice template.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Policies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0
+}
+
+body {
+  font-family: "lato", sans-serif;
+  color: black;
+}
+
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+p {
+  font-size: 30px;
+}
+
+
+
+
+
+
+
+
+p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+
+.grid {
+  overflow: visible;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  padding: 10px 30px 10px 30px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+
+footer {
+  background-color: #3FA8C9;
+  padding: 20px 10px;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+footer a {
+  color: white;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  color: #FFF;
+  border-bottom: 2px solid #FFF;
+}
+
+@media(max-width: 768px) {
+  .grid,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+
+@media(max-width: 500px) {
+
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+h1.ex1 {
+  margin-top: 70px;
+}
+
+.container a {
+  color: white;
+  margin: 0 10px;
+}
+
+</style>
+</head>
+<body>
+
+<br>
+<br>
+<br>
+<div class="container">
+<h1>
+    DISCLAIMER: THIS WEBSITE DOES NOT PROVIDE MEDICAL ADVICE
+</h1>
+<p>
+    The information, including but not limited to, text, graphics, images and other material contained on this website are for informational purposes only.
+    No material on this site is intended to be a substitute for professional medical advice, diagnosis or treatment.
+    Always seek the advice of your physician or other qualified health care provider with any questions you may have regarding a medical condition or treatment and before undertaking a new health care regimen,
+    and never disregard professional medical advice or delay in seeking it because of something you have read on this website.
+</p>
+<h1>Privacy Policy Notice</h1>
+<p>
+    The policy: This privacy policy notice is served by Health Advice Group under the website www.HealthAdviceGroup.co.uk. The purpose of this policy is to explain to you how we control, process, handle and protect your personal information through the business and while you browse or use this website. If you do not agree to the following policy you may wish to cease viewing / using this website, and or refrain from submitting your personal data to us.
+<p>
+<h1>
+  Policy key definitions:
+</h1>
+<ul>
+    <li>"I", "our", "us", or "we" refer to the business, Health Advice Group.</li>
+    <li>"you", "the user" refer to the person(s) using this website.</li>
+    <li>GDPR means General Data Protection Act.</li>
+    <li>PECR means Privacy & Electronic Communications Regulation.</li>
+    <li>ICO means Information Commissioner's Office.</li>
+    <li>Cookies mean small files stored on a users computer or device.</li>
+</ul>
+<h1>
+ Key principles of GDPR:
+</h1>
+<p>
+Our privacy policy embodies the following key principles; (a) Lawfulness, fairness and transparency, (b) Purpose limitation, (c) Data minimisation, (d) Accuracy, (e) Storage limitation, (f) Integrity and confidence, (g) Accountability.
+</p>
+<h1>
+Processing of your personal data
+</h1>
+<p>
+Under the GDPR (General Data Protection Regulation) we control and / or process any personal information about you electronically using the following lawful bases.
+</p>
+<p>
+We are registered with the ICO under the Data Protection Register, our registration number is: #example_here.
+Lawful basis: Consent
+Where our purpose for processing is: #
+Which is necessary because: #
+We process your information in the following ways: #
+Data retention period: We will continue to process your information under this basis until you withdraw consent, or it is determined your consent no longer exists.
+Sharing your information: We do not share your information with third parties.
+</p>
+<h1>
+
+</h1>
+<p>
+    Under the GDPR your rights are as follows. You can read more about your rights in details here;
+</p>
+<ul>
+    <li>the right to be informed;</li>
+    <li>the right of access;</li>
+    <li>the right to rectification;</li>
+    <li>the right to erasure;</li>
+    <li>the right to restrict processing;</li>
+    <li>the right to data portability;</li>
+    <li>the right to object; and the right not to be subject to automated decision-making including profiling.</li>
+    <li>You also have the right to complain to the ICO [www.ico.org.uk] if you feel there is a problem with the way we are handling your data.</li>
+</ul>
+<p>
+We handle subject access requests in accordance with GDPR.
+</p>
+
+</div>
+
+<footer>
+   <div class="container grid-3">
+     <div class="copyright">
+       <h1>Health Advice Group</h1>
+       <p>Copyright &copy; 2023</p>
+     </div>
+     <nav class="links">
+       <ul>
+         <li><a href="" class="outline">Home</a></li>
+         <li><a href="" class="outline">Log In</a></li>
+         <li><a href="" class="outline">Our Policies</a></li>
+       </ul>
+     </nav>
+     <div class="profiles">
+       <a href=""><em class="fab fa-twitter fa-2x"></em></a>
+       <a href=""><em class="fab fa-instagram fa-2x"></em></a>
+       <a href=""><em class="fab fa-facebook fa-2x"></em></a>
+       <a href=""><em class="fab fa-whatsapp fa-2x"></em></a>
+     </div>
+   </div>
+ </footer>
+</body>
+</html>

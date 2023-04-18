@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8">
+    <title>Weather App in JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Linking BoxIcon for Icon -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://kit.fontawesome.com/46c293f7ec.js" crossorigin="anonymous"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #43AFFC;
+  flex-direction: column;
+}
+::selection{
+  color: #fff;
+  background: #43AFFC;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
+}
+.wrapper header{
+  display: flex;
+  font-size: 21px;
+  font-weight: 500;
+  color: #43AFFC;
+  padding: 16px 15px;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+header i{
+  font-size: 0em;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.wrapper.active header i{
+  margin-left: 5px;
+  font-size: 30px;
+}
+.wrapper .input-part{
+  margin: 20px 25px 30px;
+}
+.wrapper.active .input-part{
+  display: none;
+}
+
+.wrapper .weather-part{
+  display: flex;
+  margin: 30px 0 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.weather-part img{
+  max-width: 125px;
+}
+.weather-part .temp{
+  display: flex;
+  font-weight: 500;
+  font-size: 72px;
+}
+.weather-part .temp .numb{
+  font-weight: 600;
+}
+.weather-part .temp .deg{
+  font-size: 40px;
+  display: block;
+  margin: 10px 5px 0 0;
+}
+.weather-part .weather{
+  font-size: 21px;
+  text-align: center;
+  margin: -5px 20px 15px;
+}
+.weather-part .location{
+  display: flex;
+  font-size: 19px;
+  padding: 0 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  align-items: flex-start;
+}
+.location i{
+  font-size: 22px;
+  margin: 4px 5px 0 0;
+}
+.weather-part .bottom-details{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+}
+.bottom-details .column{
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  align-items: center;
+  justify-content: center;
+}
+.column i{
+  color: #5DBBFF;
+  font-size: 40px;
+}
+.column.humidity{
+  border-left: 1px solid #ccc;
+}
+.column .details{
+  margin-left: 3px;
+}
+.details .temp, .humidity span{
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: -3px;
+}
+.details .temp .deg{
+  margin: 0;
+  font-size: 17px;
+  padding: 0 2px 0 1px;
+}
+.column .details p{
+  font-size: 14px;
+  margin-top: -6px;
+}
+.humidity i{
+  font-size: 37px;
+}
+
+.forecastwrapper {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.forecastcard {
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 20px;
+  background: #fff;
+  color: #53627c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+}
+
+.id-forecast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .forecastwrapper {
+    flex-direction: column;
+    width: 60%;
+  }
+  .forecastcard {
+     margin: 5px;
+     width: 100%;
+     max-width: 400px;
+  }
+  .id-forecast-container {
+    flex-direction: column;
+  }
+}
+
+.mapcontainer{
+ margin-left: 20px;
+ margin-top: 30px;
+ display: flex;
+ justify-content: center;
+ flex: 1;
+}
+.map{
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+</style>
+      <script src="{{ url_for('static',filename='js/pollenforecast.js') }}"></script>
+  </head>
+  <body>
+  {% include 'dashboard_template.html' %}
+  <main>
+  <div class="id-forecast-container">
+    <div class="wrapper">
+      <section class="weather-part">
+        <div id="current_day">Today: Monday</div>
+        <div class="temp">
+            <span class="numb" id="European_AQI">European AQI</span>
+        </div>
+        <div class="weather">
+          <i class='bx bxs-tree'></i>
+          <span id="alder">light rain: 6mm </span>
+        </div>
+        <div class="weather">
+          <i class="fa-solid fa-tree"></i>
+          <span id="birch">heavy rain: 6mm </span>
+        </div>
+        <div class="weather">
+          <i class="fa-solid fa-plant-wilt"></i>
+          <span id="grass">sunrise: 6am </span>
+        </div>
+        <div class="weather">
+          <span id="mugwort">sunset: 8pm </span>
+        </div>
+        <div class="location">
+          <i class='bx bx-map'></i>
+          <span id="location">Winkleigh, Devon</span>
+        </div>
+        <div class="bottom-details">
+          <div class="column feels">
+            <i class='bx bxs-thermometer'></i>
+            <div class="details">
+              <div class="temp">
+                  <span class="numb-2" id="apparenttemp">18°C</span>
+              </div>
+              <p>Feels like</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bxs-droplet-half'></i>
+            <div class="details">
+              <span id="rainchance">35%</span>
+              <p>Rain Chance</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bx-wind' ></i>
+            <div class="details">
+              <span id="windspeed">10 Km/h</span>
+              <p>Max Windspeed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+       <div class="mapcontainer">
+        <div class="map" id="map">
+       </div>
+      </div>
+    </div>
+    <div class="forecastwrapper">
+        <div class="forecastcard" id="td1">
+            <h1 id="day1">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp1">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light1">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bxs-droplet-half'></i>
+                  <span id="heavy1">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td2">
+            <h1 id="day2">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp2">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light2">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy2">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td3">
+            <h1 id="day3">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp3">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light3">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy3">8mm</span>
+              </div>
+        </div>
+    </div>
+  </main>
+   <input type="hidden" id="usertime" value="{{ date }}">
+  </body>
+</html>

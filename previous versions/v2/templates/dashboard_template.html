@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+          box-sizing: border-box;
+        }
+        body {
+          margin: 0;
+          background-color: gray;
+          padding-top: 100px;
+          padding-left: 250px;
+          padding-right: 50px;
+        }
+        .header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 50px;
+          display: flex;
+          align-elements: center;
+          justify-content: space-between;
+          background-color: white;
+        }
+
+        .leftbox {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .company {
+          padding-left: 20px;
+        }
+
+        .rightbox img {
+            object-fit: cover;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+        }
+
+        .rightbox{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: 10px;
+        }
+
+        .sidebar{
+           position: fixed;
+           display: flex;
+           flex-direction: column;
+           align-elements: center;
+           top: 50px;
+           left: 0;
+           bottom: 0;
+           width: 200px;
+           background-color: #405BC9;
+        }
+
+        .sidenavitem{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          height: 50px;
+        }
+        .burgermenu {
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           height: 50px;
+           width: 50px;
+           background-color: #405BC9;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="leftbox">
+            <div class="burgermenu"><i class="fa fa-bars"></i></div>
+            <div class="company">Health Advice Group</div>
+        </div>
+        <div class="rightbox">
+            <p>logged in as : {{current_user.username}}</p>
+            <img src="data:image/png;base64,{{current_user.profile_image}}">
+        </div>
+    </div>
+</header>
+<nav>
+    <div class="sidebar">
+        <div class="sidenavitem"><h1>Health Dashboard</h1></div>
+        <div class="sidenavitem"><img src="data:image/png;base64,{{current_user.profile_image}}"></div>
+        <div class="sidenavitem">Pollen Forecast</div>
+        <div class="sidenavitem">Weather Forecast</div>
+        <div class="sidenavitem">Air Quality Forecast</div>
+        <div class="sidenavitem">Health Logger</div>
+        <div class="sidenavitem">Risk Assessments</div>
+        <div class="sidenavitem">Your Profile</div>
+        <div class="sidenavitem" >Log Out<a href="{{ url_for('logout') }}"></a></div>
+    </div>
+</nav>
+<section>
+<!--    <div class="page-grid-container">-->
+<!--        <div>a</div>-->
+<!--        <div>a</div>-->
+<!--        <div>a</div>-->
+<!--    </div>-->
+</section>
+</body>
+<script src="{{ url_for('static',filename='js/pollenforecast.js') }}"></script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+<!--    <script-->
+<!--      src="https://maps.googleapis.com/maps/api/js?key=AlzaSyCu26zidBwPHKxebJeHwlEqjLICBlaHXdc&callback=API_FETCH()"-->
+<!--      defer-->
+<!--    ></script>-->
+    <style>
+
+
+     .card{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background-color: white;
+       flex-direction: column;
+       min-width: 200px;
+       border-radius: 10px;
+     }
+     .carditem{
+       display: inline-block;
+     }
+
+     .page-grid-container{
+           display: grid;
+           column-gap: 20px;
+           row-gap: 50px;
+           grid-template: auto auto auto;;
+        }
+    </style>
+</head>
+<body>
+{% include 'dashboard_template.html' %}
+<div class="page-grid-container">
+<div class="card">
+ <div class="carditem" id="currenttemp">Data Not Available</div>
+ <div class="carditem" id="currentwind">Data Not Available</div>
+ <div class="carditem" id="currentconditions">Data Not Available</div>
+</div>
+
+<div class="card">
+</div>
+
+
+<div class="card">
+    <div id="apparent_temp_max">Data Not Available</div>
+    <div id="apparent_temp_min">Data Not Available</div>
+    <div id="max_temp">Data Not Available</div>
+    <div id="rainsum">Data Not Available</div>
+    <div id="sun">Data Not Available</div>
+</div>
+</div>
+
+
+
+
+
+
+<!--const geocoder = new google.maps.Geocoder();-->
+<!--      user_location = geocoder.geocode({ location: ${pos.lat}${pos.lng} })    -->
+</body>
+<script>
+const GOOGLE_API_KEY = "AlzaSyCu26zidBwPHKxebJeHwlEqjLICBlaHXdc";
+let current_temperature = document.querySelector("#currenttemp");
+let current_wind = document.querySelector("#currentwind");
+let current_conditions = document.querySelector("#currentconditions");
+let max_apparent_temperature = document.querySelector("#apparent_temp_max");
+let min_apparent_temperature = document.querySelector("#apparent_temp_min");
+let max_temperature = document.querySelector("#max_temp");
+let rainsum = document.querySelector("#rainsum");
+let sun = document.querySelector("#sun");
+
+// if time allows, modify API function to be usable across all calls instead of needing repeats //
+
+async function API_FETCH(){
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          Call_API(pos);
+          }
+          );
+          }
+  else {
+      alert('geolocation disabled, Enable to use this service');
+  }
+  async function Call_API(pos) {
+      alert('working so far');
+      console.log(pos);
+      const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.lat}&longitude=${pos.lng}&timezone=auto&current_weather=true&daily=weathercode,rain_sum,showers_sum,precipitation_sum,sunrise
+,sunset,precipitation_probability_mean,winddirection_10m_dominant,uv_index_clear_sky_max,apparent_temperature_max,apparent_temperature_min,temperature_2m_max`);
+      let JSON_data = await response.json();
+      console.log(JSON_data);
+      let daily_data = JSON_data.daily
+      let current_data = JSON_data.current_weather
+      console.log(daily_data);
+      console.log(current_data);
+      current_temperature.textContent = `Current temperature is ${current_data.temperature}°C`
+      current_wind.textContent = `Current wind bearing is ${current_data.winddirection}° and the speed is ${current_data.windspeed}km/h`
+      current_wind.textContent = `The current weather condition outside is ${current_data.winddirection}°`
+      max_apparent_temperature.textContent = `The hottest it will feel today is: ${daily_data.apparent_temperature_max[0]}°C`;
+      min_apparent_temperature.textContent = `The coldest it will feel today is: ${daily_data.apparent_temperature_min[0]}°C`;
+      max_temperature.textContent = `Max temperature today is: ${daily_data.temperature_2m_max[0]}°C`;
+      rainsum.textContent = `total rain today is: ${daily_data.rain_sum[0]}mm`;
+      sun.textContent = `the sun will rise at ${ moment.utc(daily_data.sunrise[0]).format("HH:mm")} AM and set at ${moment.utc(daily_data.sunset[0]).format("HH:mm")} PM`;
+
+
+
+}
+}
+
+API_FETCH();
+</script>
+</html>

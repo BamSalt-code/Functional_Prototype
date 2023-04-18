@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    const GOOGLE_API_KEY = "AlzaSyCu26zidBwPHKxebJeHwlEqjLICBlaHXdc";
+let current_temperature = document.querySelector("#currenttemp");
+let current_wind = document.querySelector("#currentwind");
+let current_conditions = document.querySelector("#currentconditions");
+let max_apparent_temperature = document.querySelector("#apparent_temp_max");
+let min_apparent_temperature = document.querySelector("#apparent_temp_min");
+let max_temperature = document.querySelector("#max_temp");
+let rainsum = document.querySelector("#rainsum");
+let sun = document.querySelector("#sun");
+
+async function API_FETCH(){
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          Call_API(pos);
+          }
+          );
+          }
+  else {
+      alert('geolocation disabled, Enable to use this service');
+  }
+  async function Call_API(pos) {
+      alert('working so far');
+      console.log(pos);
+      const response = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${pos.lat}&longitude=${pos.lng}&hourly=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index,ammonia,alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen`);
+      let JSON_data = await response.json();
+      console.log(JSON_data);
+
+}
+}
+
+API_FETCH();
+</script>
+</html>

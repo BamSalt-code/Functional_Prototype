@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Logger</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.4/jquery.datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+    <style>
+        .chart-wrapper {
+          width: 50%;
+        }
+    </style>
+</head>
+<body>
+<div id="chart-wrapper">
+  <canvas id="HealthChart"></canvas>
+</div>
+<table id="loggerdata">
+  <tr>
+    <th>Log ID</th>
+    <th>Symptom Rating</th>
+    <th>Air Quality</th>
+    <th>Pollen Level</th>
+    <th>Time Recorded</th>
+    <th>Your Description</th>
+  </tr>
+  <tr>
+   {% for i in data %}
+        <td>{{i.log_id}}</td>
+        <td>{{i.symptom_rating}}</td>
+        <td>{{i.air_quality}}</td>
+        <td>{{i.pollen_level}}</td>
+        <td>{{i.time_recorded}}</td>
+        <td>{{i.user_description}}</td>
+   {% endfor %}
+  </tr>
+</table>
+<script>
+
+const ctx = document.getElementById('HealthChart').getContext('2d');
+
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [
+      {% for i in data %}
+         '{{ i.time_recorded }}',
+      {% endfor %}
+    ],
+    datasets: [{
+        label: "{{user_name}}'s symptom rating",
+        data: [
+           {% for i in data %}
+             {{ i.symptom_rating }},
+          {% endfor %}
+        ],
+        borderWidth: 1,
+        fill: false,
+        borderColor: 'red'
+      },
+      {
+        label: 'Pollen Level',
+        data: [
+          {% for i in data %}
+             {{ i.pollen_level }},
+          {% endfor %}
+        ],
+        borderWidth: 1,
+        fill: false,
+        borderColor: 'green'
+      }
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+
+$(document).ready(function () {
+    $('#loggerdata').DataTable({
+    });
+});
+
+</script>
+</body>
+</html>

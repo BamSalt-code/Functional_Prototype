@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Weather App in JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Linking BoxIcon for Icon -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: rgb(248, 248, 248);
+  flex-direction: column;
+}
+::selection{
+  color: #fff;
+  background: #43AFFC;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
+}
+.wrapper header{
+  display: flex;
+  font-size: 21px;
+  font-weight: 500;
+  color: #43AFFC;
+  padding: 16px 15px;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+header i{
+  font-size: 0em;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.wrapper.active header i{
+  margin-left: 5px;
+  font-size: 30px;
+}
+.wrapper .input-part{
+  margin: 20px 25px 30px;
+}
+.wrapper.active .input-part{
+  display: none;
+}
+
+.wrapper .weather-part{
+  display: flex;
+  margin: 30px 0 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.weather-part img{
+  max-width: 125px;
+}
+.weather-part .temp{
+  display: flex;
+  font-weight: 500;
+  font-size: 72px;
+}
+.weather-part .temp .numb{
+  font-weight: 600;
+}
+.weather-part .temp .deg{
+  font-size: 40px;
+  display: block;
+  margin: 10px 5px 0 0;
+}
+.weather-part .weather{
+  font-size: 21px;
+  text-align: center;
+  margin: -5px 20px 15px;
+}
+.weather-part .location{
+  display: flex;
+  font-size: 19px;
+  padding: 0 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  align-items: flex-start;
+}
+.location i{
+  font-size: 22px;
+  margin: 4px 5px 0 0;
+}
+.weather-part .bottom-details{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+}
+.bottom-details .column{
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  align-items: center;
+  justify-content: center;
+}
+.column i{
+  color: #5DBBFF;
+  font-size: 40px;
+}
+.column.humidity{
+  border-left: 1px solid #ccc;
+}
+.column .details{
+  margin-left: 3px;
+}
+.details .temp, .humidity span{
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: -3px;
+}
+.details .temp .deg{
+  margin: 0;
+  font-size: 17px;
+  padding: 0 2px 0 1px;
+}
+.column .details p{
+  font-size: 14px;
+  margin-top: -6px;
+}
+.humidity i{
+  font-size: 37px;
+}
+
+.forecastwrapper {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.forecastcard {
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 20px;
+  background: #fff;
+  color: #53627c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+}
+
+
+@media (max-width: 800px) {
+  .forecastwrapper {
+    flex-direction: column;
+    width: 60%;
+  }
+  .forecastcard {
+     margin: 5px;
+     width: 100%;
+     max-width: 400px;
+  }
+  .id-forecast-container {
+    flex-direction: column;
+  }
+}
+
+.id-forecast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.mapcontainer{
+ margin-left: 20px;
+ margin-top: 30px;
+ display: flex;
+ justify-content: center;
+ flex: 1;
+}
+.map{
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+
+    </style>
+  </head>
+  <body>
+  {% include 'flashmodal.html' %}
+  <div class="id-forecast-container">
+    <div class="wrapper">
+      <section class="weather-part">
+        <div id="current_day">Today: Monday</div>
+        <div class="temp">
+            <span class="numb" id="current_temp">20°C</span>
+        </div>
+        <div class="weather">
+          <i class='bx bx-cloud-light-rain'></i>
+          <span id="lightrain">light rain: 6mm </span>
+          <i class='bx bx-cloud-rain'></i>
+          <span id="heavyrain">heavy rain: 6mm </span>
+        </div>
+        <div class="weather">
+          <i class='bx bx-sun'></i>
+          <span id="sunrise">sunrise: 6am </span>
+          <i class='bx bxs-sun'></i>
+          <span id="sunset">sunset: 8pm </span>
+        </div>
+        <div class="weather">
+          <i class='bx bxs-cloud-lightning'></i>
+          <span id="weather">Weather: None</span>
+        </div>
+        <div class="location">
+          <i class='bx bx-map'></i>
+          <span id="location">Winkleigh, Devon</span>
+        </div>
+        <div class="bottom-details">
+          <div class="column feels">
+            <i class='bx bxs-thermometer'></i>
+            <div class="details">
+              <div class="temp">
+                  <span class="numb-2" id="apparenttemp">18°C</span>
+              </div>
+              <p>Feels like</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bxs-droplet-half'></i>
+            <div class="details">
+              <span id="rainchance">35%</span>
+              <p>Rain Chance</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bx-wind' ></i>
+            <div class="details">
+              <span id="windspeed">10 Km/h</span>
+              <p>Max Windspeed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+       <div class="mapcontainer">
+        <div class="map" id="map">
+       </div>
+      </div>
+    </div>
+    <div class="forecastwrapper">
+        <div class="forecastcard" id="td1">
+            <h1 id="day1">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp1">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light1">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bxs-droplet-half'></i>
+                  <span id="heavy1">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td2">
+            <h1 id="day2">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp2">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light2">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy2">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td3">
+            <h1 id="day3">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp3">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light3">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy3">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td4">
+            <h1 id="day4">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp4">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light4">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy4">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td5">
+            <h1 id="day5">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp5">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light5">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy5">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td6">
+            <h1 id="day6">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp6">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light6">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy6">8mm</span>
+              </div>
+        </div>
+    </div>
+  {% with messages = get_flashed_messages() %}
+       {% if messages %}
+         <script>
+             callmodal();
+         </script>
+       {% endif %}
+   {% endwith %}
+  </body>
+<script>
+async function api_fetch() {
+    navigator.geolocation.getCurrentPosition(position => {
+    const { latitude, longitude } = position.coords;
+    const airAPi = `https://api.open-meteo.com/v1/forecast?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&timezone=auto&current_weather=true&daily=temperature_2m_max,windspeed_10m_max,windgusts_10m_max,precipitation_sum,precipitation_probability_mean,weathercode,sunrise,sunset,apparent_temperature_max`
+    async function air() {
+        const KEY = "AIzaSyCu26zidBwPHKxebJeHwlEqjLlCBIaHXdc";
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${KEY}`
+        const response = await fetch(url, {
+            method: "GET"
+        });
+        let data = await response.json();
+        console.log(data);
+        let user_location = data.results[0].formatted_address
+        console.log(user_location);
+        document.getElementById("location").innerHTML = (user_location);
+        document.getElementById("map").innerHTML = '<iframe class="responsivemap" width="100%" height="390" frameborder="0" style="border:0" src="https://maps.google.com/maps?q='+position.coords.latitude+','+position.coords.longitude+'&amp;z=15&amp;output=embed"></iframe>'
+        const weather_response = await fetch(airAPi, {
+            method: "GET"
+        });
+        let weather_data = await weather_response.json();
+        console.log(weather_data);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let WeatherDictionary = {
+          0 : { description : "Clear sky" },
+          1 : { description : "Mainly clear, partly cloudy, and overcast" },
+          2 : { description : "Mainly clear, partly cloudy, and overcast" },
+          3 : { description : "Mainly clear, partly cloudy, and overcast" },
+          45 : { description : "Fog and depositing rime fog" },
+          48 : { description : "Fog and depositing rime fog" },
+          51 : { description : "Drizzle: Light, moderate, and dense intensity" },
+          53 : { description : "Drizzle: Light, moderate, and dense intensity" },
+          55 : { description : "Drizzle: Light, moderate, and dense intensity" },
+          56 : { description : "Freezing Drizzle: Light and dense intensity" },
+          57 : { description : "Freezing Drizzle: Light and dense intensity" },
+          61 : { description : "Rain: Slight, moderate and heavy intensity" },
+          63 : { description : "Rain: Slight, moderate and heavy intensity" },
+          65 : { description : "Rain: Slight, moderate and heavy intensity" },
+          66 : { description : "Freezing Rain: Light and heavy intensity" },
+          67 : { description : "Freezing Rain: Light and heavy intensity" },
+          71 : { description : "Snow fall: Slight, moderate, and heavy intensity" },
+          73 : { description : "Snow fall: Slight, moderate, and heavy intensity" },
+          75 : { description : "Snow fall: Slight, moderate, and heavy intensity" },
+          77 : { description : "Snow grains" },
+          80 : { description : "Rain showers: Slight, moderate, and violent" },
+          81 : { description : "Rain showers: Slight, moderate, and violent" },
+          82 : { description : "Rain showers: Slight, moderate, and violent" },
+          85 : { description : "Snow showers slight and heavy" },
+          86 : { description : "Snow showers slight and heavy" },
+          95 : { description : "Thunderstorm: Slight or moderate" },
+          96 : { description : "Thunderstorm with slight and heavy hail" },
+          99: { description : "Thunderstorm with slight and heavy hail" }
+        };
+        const today = new Date();
+        let title_days = [];
+        console.log(today, title_days);
+        const current = weather_data.current_weather
+        const daily = weather_data.daily
+        var datetime = moment(`${daily.sunrise[0]}`).format("h:mm:ss a");
+        console.log(datetime);
+        const current_day = new Date(today);
+        current_day.setDate(today.getDate());
+        card_day = (days[current_day.getDay()]);
+        for (let i = 1; i < 7; i++) {
+          const nextDay = new Date(today);
+          nextDay.setDate(today.getDate() + i);
+          console.log(days[nextDay.getDay()]);
+          document.getElementById(`day${i}`).textContent = (`${days[nextDay.getDay()]}`)
+          document.getElementById(`temp${i}`).textContent = (`${daily.temperature_2m_max[i]} °C`)
+          document.getElementById(`light${i}`).textContent = (`${daily.precipitation_sum[i]} mm`)
+          document.getElementById(`heavy${i}`).textContent = (`${daily.precipitation_probability_mean[i]} %`)
+          title_days.push(days[nextDay.getDay()]);
+        }
+        document.getElementById("current_day").textContent = (`Today: ${card_day}`);
+        document.getElementById("weather").textContent = (`Weather: ${WeatherDictionary[current.weathercode].description}`);
+        document.getElementById("current_temp").textContent = (`${current.temperature}°C`);
+        document.getElementById("sunrise").textContent = (` sunrise: ${moment(`${daily.sunrise[0]}`).format("h:mm:ss a")}`);
+        document.getElementById("sunset").textContent = (`sunset: ${moment(`${daily.sunset[0]}`).format("h:mm:ss a")}`);
+        document.getElementById("rainchance").textContent = (`${daily.precipitation_probability_mean[0]}%`)
+        document.getElementById("apparenttemp").textContent = (`${daily.apparent_temperature_max[0]}°C`)
+        document.getElementById("windspeed").textContent = (`${daily.windspeed_10m_max[0]} Km/h`)
+
+
+
+    }
+  air();
+})
+}
+
+api_fetch();
+</script>
+</html>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Weather App in JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Linking BoxIcon for Icon -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://kit.fontawesome.com/46c293f7ec.js" crossorigin="anonymous"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #43AFFC;
+  flex-direction: column;
+}
+::selection{
+  color: #fff;
+  background: #43AFFC;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
+}
+.wrapper header{
+  display: flex;
+  font-size: 21px;
+  font-weight: 500;
+  color: #43AFFC;
+  padding: 16px 15px;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+header i{
+  font-size: 0em;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.wrapper.active header i{
+  margin-left: 5px;
+  font-size: 30px;
+}
+.wrapper .input-part{
+  margin: 20px 25px 30px;
+}
+.wrapper.active .input-part{
+  display: none;
+}
+
+.wrapper .weather-part{
+  display: flex;
+  margin: 30px 0 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.weather-part img{
+  max-width: 125px;
+}
+.weather-part .temp{
+  display: flex;
+  font-weight: 500;
+  font-size: 72px;
+}
+.weather-part .temp .numb{
+  font-weight: 600;
+}
+.weather-part .temp .deg{
+  font-size: 40px;
+  display: block;
+  margin: 10px 5px 0 0;
+}
+.weather-part .weather{
+  font-size: 21px;
+  text-align: center;
+  margin: -5px 20px 15px;
+}
+.weather-part .location{
+  display: flex;
+  font-size: 19px;
+  padding: 0 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  align-items: flex-start;
+}
+.location i{
+  font-size: 22px;
+  margin: 4px 5px 0 0;
+}
+.weather-part .bottom-details{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+}
+.bottom-details .column{
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  align-items: center;
+  justify-content: center;
+}
+.column i{
+  color: #5DBBFF;
+  font-size: 40px;
+}
+.column.humidity{
+  border-left: 1px solid #ccc;
+}
+.column .details{
+  margin-left: 3px;
+}
+.details .temp, .humidity span{
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: -3px;
+}
+.details .temp .deg{
+  margin: 0;
+  font-size: 17px;
+  padding: 0 2px 0 1px;
+}
+.column .details p{
+  font-size: 14px;
+  margin-top: -6px;
+}
+.humidity i{
+  font-size: 37px;
+}
+
+.forecastwrapper {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.forecastcard {
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 20px;
+  background: #fff;
+  color: #53627c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+}
+
+.id-forecast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .forecastwrapper {
+    flex-direction: column;
+    width: 60%;
+  }
+  .forecastcard {
+     margin: 5px;
+     width: 100%;
+     max-width: 400px;
+  }
+  .id-forecast-container {
+    flex-direction: column;
+  }
+}
+
+
+
+.mapcontainer{
+ margin-left: 20px;
+ margin-top: 30px;
+ display: flex;
+ justify-content: center;
+ flex: 1;
+}
+.map{
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+
+    </style>
+  </head>
+  <body>
+  {% include 'flashmodal.html' %}
+  <div class="id-forecast-container">
+    <div class="wrapper">
+      <section class="weather-part">
+        <div id="current_day">Today: Monday</div>
+        <div class="temp">
+            <span class="numb" id="European_AQI">European AQI</span>
+        </div>
+        <div class="weather">
+          <i class='bx bxs-tree'></i>
+          <span id="alder">light rain: 6mm </span>
+        </div>
+        <div class="weather">
+          <i class="fa-solid fa-tree"></i>
+          <span id="birch">heavy rain: 6mm </span>
+        </div>
+        <div class="weather">
+          <i class="fa-solid fa-plant-wilt"></i>
+          <span id="grass">sunrise: 6am </span>
+        </div>
+        <div class="weather">
+          <span id="mugwort">sunset: 8pm </span>
+        </div>
+        <div class="location">
+          <i class='bx bx-map'></i>
+          <span id="location">Winkleigh, Devon</span>
+        </div>
+        <div class="bottom-details">
+          <div class="column feels">
+            <i class='bx bxs-thermometer'></i>
+            <div class="details">
+              <div class="temp">
+                  <span class="numb-2" id="apparenttemp">18°C</span>
+              </div>
+              <p>Feels like</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bxs-droplet-half'></i>
+            <div class="details">
+              <span id="rainchance">35%</span>
+              <p>Rain Chance</p>
+            </div>
+          </div>
+          <div class="column humidity">
+            <i class='bx bx-wind' ></i>
+            <div class="details">
+              <span id="windspeed">10 Km/h</span>
+              <p>Max Windspeed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+       <div class="mapcontainer">
+        <div class="map" id="map">
+       </div>
+      </div>
+    </div>
+    <div class="forecastwrapper">
+        <div class="forecastcard" id="td1">
+            <h1 id="day1">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp1">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light1">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bxs-droplet-half'></i>
+                  <span id="heavy1">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td2">
+            <h1 id="day2">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp2">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light2">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy2">8mm</span>
+              </div>
+        </div>
+        <div class="forecastcard" id="td3">
+            <h1 id="day3">Monday</h1>
+              <div class="temp">
+                <i class='bx bxs-thermometer'></i>
+                <span class="numb-2" id="temp3">18°C</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-light-rain'></i>
+                  <span id="light3">6mm</span>
+              </div>
+              <div>
+                  <i class='bx bx-cloud-rain'></i>
+                  <span id="heavy3">8mm</span>
+              </div>
+        </div>
+    </div>
+   <input type="hidden" id="usertime" value="{{ date }}">
+   {% with messages = get_flashed_messages() %}
+       {% if messages %}
+         <script>
+             callmodal();
+         </script>
+       {% endif %}
+   {% endwith %}
+  </body>
+<script>
+
+@app.route("/logger", methods=['POST', 'GET'])
+def logger():
+    if request.method == 'GET':
+        logs = Logs.query.all()
+        return render_template('logger.html', Logs=logs)
+    if request.method == 'POST':
+        logger_data = request.get_json()
+        # print(logger_data)
+        with app.app_context():
+            symptoms = logger_data['symptoms']
+            api_level = logger_data['api_data']
+            api_data = logger_data['api']
+            now = datetime.now()
+            rounded_time = (hour_rounder(now))
+
+iso_date = rounded_time.isoformat(timespec='minutes')
+            current_api_index = (api_data['hourly']['time'].index(iso_date))
+            N02 = (api_data['hourly']['nitrogen_dioxide'][current_api_index])
+            alder = (api_data['hourly']['alder_pollen'][current_api_index])
+            new_entry = Logs(symptoms=symptoms, pollen_value=alder, air_value=N02)
+            db.session.add(new_entry)
+            db.session.commit()
+            session['weather'] = api_data
+            return redirect(url_for('logger'))
+    return render_template('logger.html')
+
+@app.route("/air", methods=['POST', 'GET'])
+def air():
+    if request.method == 'GET':
+        now = datetime.now()
+        rounded_time = (hour_rounder(now))
+        iso_date = rounded_time.replace(microsecond=0).isoformat("T", "minutes")
+        print(iso_date)
+        return render_template('airquality.html', date=iso_date)
+    if request.method == 'POST':
+        return render_template('airquality.html')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+.charts {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+    width: 100%;
+    padding: 20px;
+    padding-top: 0;
+}
+.chart {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+}
+.chart h2 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #666;
+    text-align: center
+}
+@media (max-width:1115px) {
+    .sidebar {
+        width: 60px;
+    }
+    .main {
+        width: calc(100% - 60px);
+        left: 60px;
+    }
+}
+@media (max-width:880px) {
+    .cards {
+        width: 100%;
+        padding: 35px 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+    }
+    .charts {
+        grid-template-columns: 1fr;
+    }
+    .doughnut-chart {
+        padding: 50px;
+    }
+    #doughnut {
+        padding: 50px;
+    }
+}
+@media (max-width:500px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    .doughnut-chart {
+        padding: 10px;
+    }
+    #doughnut {
+        padding: 0px;
+    }
+
+}
+.main {
+    position: absolute;
+    top: 60px;
+    width: calc(100% - 260px);
+    min-height: calc(100vh - 60px);
+    left: 260px;
+    background: #f5f5f5;
+}
+    </style>
+    <link
+rel="stylesheet"
+type="text/css"
+href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"
+/>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"
+></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+<a href="{{ url_for('new')}}">add new entry</a>
+<div class="charts">
+                <div class="chart">
+                    <h2>Earnings (past 12 months)</h2>
+                    <div>
+                        <canvas id="multipleLineChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart doughnut-chart">
+                    <h2>Employees</h2>
+                    <div>
+                        <canvas id="doughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+</body>
+<script>
+const ctx = document.getElementById('multipleLineChart').getContext('2d');
+
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for i in Logs %}
+"{{i.logged_at}}",
+{% endfor %}],
+    datasets: [{
+        label: 'Symptom Rating',
+        data: [{% for i in Logs %}
+"{{i.symptoms}}",
+{% endfor %}],
+        borderWidth: 1,
+        fill: false,
+        borderColor: 'red'
+      },
+      {
+      label: 'Pollen Level',
+        data: [{% for i in Logs %}
+"{{i.pollen_value}}",
+{% endfor %}],
+        borderWidth: 1,
+        fill: false,
+        borderColor: 'green'
+      },
+      {
+        label: 'Air Quality Level',
+        data: [{% for i in Logs %}
+"{{i.air_value}}",
+{% endfor %}],
+        borderWidth: 1,
+        fill: false,
+        borderColor: 'yellow'
+      }
+    ]
+  },
+  options: {
+    responsive: true
+   }
+});
+
+$(function() {
+$("#log-table").dataTable();
+});
+
+var ctx2 = document.getElementById('doughnut').getContext('2d');
+var myChart2 = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Academic', 'Non-Academic', 'Administration', 'Others'],
+        datasets: [{
+            label: 'Employees',
+            data: [42, 12, 8, 6],
+            backgroundColor: [
+                'rgba(41, 155, 99, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(120, 46, 139,1)'
+            ],
+            borderColor: [
+                'rgba(41, 155, 99, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(120, 46, 139,1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+</script>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Quality Advice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0
+}
+
+body {
+  font-family: "lato", sans-serif;
+  color: black;
+}
+
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+p {
+  font-size: 30px;
+}
+
+
+
+
+
+
+
+
+p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+
+.grid {
+  overflow: visible;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  padding: 10px 30px 10px 30px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+
+footer {
+  background-color: #3FA8C9;
+  padding: 20px 10px;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+footer a {
+  color: white;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  color: #FFF;
+  border-bottom: 2px solid #FFF;
+}
+
+@media(max-width: 768px) {
+  .grid,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+
+@media(max-width: 500px) {
+
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+h1.ex1 {
+  margin-top: 70px;
+}
+
+
+</style>
+</head>
+<body>
+{% include 'advice template.html' %}
+<br>
+<br>
+<br>
+<div class="container">
+<h1>The effects of Air pollution</h1>
+<p>
+    Epidemiological studies have shown that long-term exposure to air pollution (over years or lifetimes) reduces life expectancy, mainly due to cardiovascular and respiratory diseases and lung cancer. Short-term exposure (over hours or days) to elevated levels of air pollution can also cause a range of health impacts, including effects on lung function, exacerbation of asthma, increases in respiratory and cardiovascular hospital admissions and mortality.
+</p>
+<p>
+    Air pollutants are emitted from a range of both man-made and natural sources. Many everyday activities such as transport, industrial processes, farming, energy generation and domestic heating can have a detrimental effect on air quality.
+
+    The UK Health Forum and Imperial College London, in collaboration with and funded by Public Health England (PHE), developed a modelling framework and estimated that a 1 µg/m3 reduction in fine particulate air pollution in England could prevent around 50,900 cases of coronary heart disease, 16,500 strokes, 9,300 cases of asthma and 4,200 lung cancers over an 18 year period.
+</p>
+<h1>Key air pollutants</h1>
+<p>
+    Air pollution is a complex mix of particles and gases of both natural and human origin. Particulate matter (PM) and nitrogen dioxide (NO2) are both major components of urban air pollution. Currently, there is no clear evidence of a safe level of exposure below which there is no risk of adverse health effects. Therefore, further reduction of PM or NO2 concentrations below air quality standards is likely to bring additional health benefits.
+</p>
+<h1>Air pollutants indoors</h1>
+<p>
+    Air pollution isn’t just about the outdoor world. There are a number of sources of indoor air pollutants that can harm health including:
+
+CO, NO2 and particulates from domestic appliances (boilers, heaters, fires, stoves and ovens), which burn carbon containing fuels (coal, coke, gas, kerosene and wood)
+VOCs from cleaning and personal care products, building materials and household consumer products (paints, carpets, laminate furniture, cleaning products, air fresheners, polishing)
+environmental tobacco smoke (ETS) and second hand smoke (SHS)
+radon is a naturally occurring radioactive gas that comes from the ground as the earth decays. There is an increased risk of lung cancer if exposed to high levels of radon for a long time, as it is the second-highest cause of lung cancer after smoking. It’s generally not a problem in outside air but can accumulate in buildings.
+</p>
+<h1>How air pollution harms health</h1>
+<p>
+    When air pollutants enter the body, they can have effects on various different organs and systems, not just the respiratory system.
+    This includes:
+</p>
+<ul>
+    <li>the eyes, nose and throat</li>
+    <li>the lungs and respiratory system</li>
+    <li>the heart – heart and blood vessel diseases, including strokes and hardening of the arteries, are one of the main effects of air pollution</li>
+    <li>Emerging evidence suggests that air pollution may also affect the brain and is possibly linked to dementia and cognitive decline. There is also emerging evidence associating air pollution with early life effects such as low birth weight.</li>
+</ul>
+<p>Data was sourced from the UK government. Reference can be found <a href="https://www.gov.uk/government/publications/health-matters-air-pollution/health-matters-air-pollution">Here</a></p>
+</div>
+
+<footer>
+   <div class="container grid-3">
+     <div class="copyright">
+       <h1>Health Advice Group</h1>
+       <p>Copyright &copy; 2023</p>
+     </div>
+     <nav class="links">
+       <ul>
+         <li><a href="" class="outline">Home</a></li>
+         <li><a href="" class="outline">Log In</a></li>
+         <li><a href="" class="outline">Our Policies</a></li>
+       </ul>
+     </nav>
+     <div class="profiles">
+       <a href=""><em class="fab fa-twitter fa-2x"></em></a>
+       <a href=""><em class="fab fa-instagram fa-2x"></em></a>
+       <a href=""><em class="fab fa-facebook fa-2x"></em></a>
+       <a href=""><em class="fab fa-whatsapp fa-2x"></em></a>
+     </div>
+   </div>
+ </footer>
+</body>
+</html>
